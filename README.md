@@ -40,17 +40,6 @@ Built using pure HTML, CSS, and JavaScript, this project focuses on:
 
 This project was created to practice frontend development, UI/UX design, component architecture, and responsive web development.
 
----
-
-# 🚀 Live Demo
-
-🔗 Add Your Deployment Link Here
-
-```bash
-https://your-live-demo-link.vercel.app
-```
-
----
 
 # ✨ Features
 
@@ -120,27 +109,6 @@ Spotify-Web-Music-Player/
 └── LICENSE
 ```
 
----
-
-# 📸 Screenshots
-
-## 🖥️ Home Page
-
-![Home Page](https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80\&w=1400\&auto=format\&fit=crop)
-
----
-
-## 🎵 Music Player UI
-
-![Music Player](https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80\&w=1400\&auto=format\&fit=crop)
-
----
-
-## 📱 Responsive Mobile View
-
-![Mobile View](https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80\&w=1400\&auto=format\&fit=crop)
-
----
 
 # ⚡ Installation
 
