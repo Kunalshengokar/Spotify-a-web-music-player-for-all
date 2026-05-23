@@ -1,0 +1,18 @@
+{
+  "albums": [
+    {
+      "folder": "cs",
+      "title": "Mixed songs",
+      "description": "Songs for you",
+      "cover": "/songs/cs/cover.jpg",
+      "songs": ["Perfect.mp3", "Saiyaara.m4a", "Saude baazi.mp3", "Shape of You.mp3"]
+    },
+    {
+      "folder": "ncs",
+      "title": "Arijit Singh songs",
+      "description": "collection",
+      "cover": "/songs/ncs/cover.jpg",
+      "songs": ["Ae Dil Hai Mushkil.mp3", "Agar Tum Saath Ho.mp3", "Apna Bana Le.mp3", "Baatein ye kabhi na (Arijit sing).mp3", "Heeriye.mp3", "Jaane Tu.mp3", "PhirBhi Tumko Chaahunga.mp3", "Satranga.mp3", "Shayad.mp3", "Tere Hawaale.mp3"]
+    }
+  ]
+}

@@ -156,6 +156,42 @@ Then visit: `http://localhost:8000`
 
 ---
 
+## 🚀 Deployment to Vercel
+
+This project is ready to deploy on Vercel with zero configuration.
+
+### Deploy via Vercel CLI
+
+1. Install Vercel CLI:
+```bash
+npm install -g vercel
+```
+
+2. Deploy the project:
+```bash
+vercel
+```
+
+3. Follow the prompts to complete deployment.
+
+### Deploy via Vercel Dashboard
+
+1. Push your code to GitHub
+2. Visit [vercel.com](https://vercel.com)
+3. Click "Import Project"
+4. Select your repository
+5. Click "Deploy" (no configuration needed)
+
+Your app will be live at: `https://your-project.vercel.app`
+
+### Important Notes for Deployment:
+- The app uses a `songs-manifest.json` file to load songs dynamically
+- All song paths are relative and work with static hosting
+- The `vercel.json` config handles CORS and routing automatically
+- No environment variables or build steps required
+
+---
+
 ## 🎯 Future Improvements
 
 ### 🚀 Planned Features

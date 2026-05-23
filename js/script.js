@@ -2,6 +2,29 @@ console.log("Lets start javascript");
 let currentSong = new Audio();
 let songs;
 let currFolder;
+let songsData = null;
+
+// Load songs manifest
+async function loadManifest() {
+    if (!songsData) {
+        try {
+            const response = await fetch('/songs-manifest.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            songsData = await response.json();
+
+            // Validate manifest structure
+            if (!songsData?.albums || !Array.isArray(songsData.albums)) {
+                throw new Error('Invalid manifest structure');
+            }
+        } catch (error) {
+            console.error('Failed to load manifest:', error);
+            return { albums: [] }; // Fallback to empty albums
+        }
+    }
+    return songsData;
+}
 //get all songs
 
 function secondsTOMinutesSeconds(seconds) {
@@ -15,18 +38,15 @@ function secondsTOMinutesSeconds(seconds) {
 
 async function getsongs(folder) {
     currFolder = folder;
-    let a = await fetch(`http://127.0.0.1:3000/${folder}/`)
-    let response = await a.text();
-    let div = document.createElement("div")
-    div.innerHTML = response;
-    let as = div.getElementsByTagName("a")
-    songs = []
-    for (let index = 0; index < as.length; index++) {
-        const element = as[index];
-        if (element.href.endsWith(".mp3")) {
-            songs.push(element.href.split(`/${folder}/`)[1])
-        }
+    const manifest = await loadManifest();
+    const album = manifest.albums.find(a => `songs/${a.folder}` === folder);
+
+    if (!album) {
+        console.error('Album not found:', folder);
+        return [];
     }
+
+    songs = album.songs;
 
     let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0];
     songUL.innerHTML = "";
@@ -46,16 +66,14 @@ async function getsongs(folder) {
         songUL.appendChild(li);
     }
 
-
     //Attach an event listner to each song
-    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(element => { // Applied Array.from to the HTMLCollection
+    Array.from(document.querySelector(".songList").getElementsByTagName("li")).forEach(element => {
         element.addEventListener("click", () => {
             console.log(element.querySelector(".info").firstElementChild.innerHTML);
             playMusic(element.querySelector(".info").firstElementChild.innerHTML.trim());
         });
     });
-    return songs
-
+    return songs;
 }
 
 
@@ -72,46 +90,43 @@ const playMusic = (track, pause = false) => {
 }
 
 async function displayAlbums() {
-    // currFolder = folder;
-    let a = await fetch(`http://127.0.0.1:3000/songs/`)
-    let response = await a.text();
-    let div = document.createElement("div")
-    div.innerHTML = response;
-    let anchors = div.getElementsByTagName("a")
-    let cardContainer = document.querySelector(".cardContainer")
-    let array = Array.from(anchors)
-    for (let index = 0; index < array.length; index++) {
-        const e = array[index];
-        if (e.href.includes("/songs")) {
-            let folder = (e.href.split("/").slice(-2)[0])
+    const manifest = await loadManifest();
+    const cardContainer = document.querySelector(".cardContainer");
 
-            // Get the metadeta of the folder
-            let a = await fetch(`http://127.0.0.1:3000/songs/${folder}/info.json`)
-            let response = await a.json();
-            console.log(response)
-            cardContainer.innerHTML = cardContainer.innerHTML + `<div data-folder="${folder}" class="card">
+    // Build HTML string first for better performance
+    let html = '';
+    for (const album of manifest.albums) {
+        // Create temporary elements for safe text escaping
+        const tempDiv = document.createElement('div');
+
+        // Escape HTML in title and description
+        const titleEl = document.createElement('h2');
+        titleEl.textContent = album.title;
+        const descEl = document.createElement('p');
+        descEl.textContent = album.description;
+
+        html += `<div data-folder="${album.folder.replace(/"/g, '&quot;')}" class="card">
         <div class="play">
         <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 100 100"> <circle cx="50" cy="50" r="48" fill="#1DB954" stroke="#1ED760" stroke-width="4" />
         <polygon points="42,33 42,67 68,50" fill="white" />
         </svg>
         </div>
-        <img src="/songs/${folder}/cover.jpg" alt="">
-        <h2>${response.title}</h2>
-        <p>${response.description}</p>
-        </div>`
-        }
-
-        //Load the playlist whenever card ias clicked
-        Array.from(document.getElementsByClassName("card")).forEach(e => {
-            console.log(e)
-            e.addEventListener("click", async item => {
-                console.log(item, item.currentTarget.dataset)
-                songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`)
-                 playMusic(songs[0])
-            })
-        });
-
+        <img src="${album.cover.replace(/"/g, '&quot;')}" alt="">
+        ${titleEl.outerHTML}
+        ${descEl.outerHTML}
+        </div>`;
     }
+    cardContainer.innerHTML = html;
+
+    //Load the playlist whenever card is clicked
+    Array.from(document.getElementsByClassName("card")).forEach(e => {
+        console.log(e);
+        e.addEventListener("click", async item => {
+            console.log(item, item.currentTarget.dataset);
+            songs = await getsongs(`songs/${item.currentTarget.dataset.folder}`);
+            playMusic(songs[0]);
+        });
+    });
 }
 
 //Main function

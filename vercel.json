@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*",
+          "comment": "Public music player - allows embedding from any origin"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, OPTIONS"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/songs/(.*)",
+      "destination": "/songs/$1"
+    }
+  ]
+}
