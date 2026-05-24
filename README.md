@@ -182,7 +182,7 @@ vercel
 4. Select your repository
 5. Click "Deploy" (no configuration needed)
 
-Your app will be live at: `https://your-project.vercel.app`
+Your app will be live at: `https://spotify-a-web-music-player-for-all.vercel.app/`
 
 ### Important Notes for Deployment:
 - The app uses a `songs-manifest.json` file to load songs dynamically
