@@ -53,6 +53,7 @@
                     </div>
                 </div>
                 <div class="button">
+                    <button class="gamebtn" id="openSnakeGame" title="Play Snake Game">🎮</button>
                     <button class="signupbtn">Sign up</button>
                     <button class="loginbtn">Log in</button>
                 </div>
@@ -93,6 +94,36 @@
         <div>
             <script src="js/script.js"></script>
         </div>
+
+    <!-- Snake Game Modal -->
+    <div id="snakeGameModal" class="game-modal">
+        <div class="game-modal-content">
+            <button class="game-close" id="closeSnakeGame">&times;</button>
+            <h2 class="game-title">Snake Game</h2>
+            <div class="game-info">
+                <div class="game-score">Score: <span id="score">0</span></div>
+                <div class="game-high-score">High Score: <span id="highScore">0</span></div>
+            </div>
+            <canvas id="snakeCanvas" width="400" height="400"></canvas>
+            <div id="gameOver" class="game-over" style="display: none;">
+                <p>Game Over!</p>
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <button class="restart-btn" id="restartGame">Play Again</button>
+            </div>
+            <div class="game-controls">
+                <button class="control-btn" data-direction="up" aria-label="Up">▲</button>
+                <button class="control-btn" data-direction="left" aria-label="Left">◀</button>
+                <button class="control-btn" data-direction="right" aria-label="Right">▶</button>
+                <button class="control-btn" data-direction="down" aria-label="Down">▼</button>
+            </div>
+            <p class="game-instructions">Desktop: Use arrow keys | Mobile: Swipe or tap buttons</p>
+        </div>
+    </div>
+
+    <!-- Link CSS -->
+    <link rel="stylesheet" href="css/snake-game.css">
+    <!-- Link JS -->
+    <script src="js/snake-game.js"></script>
 </body>
 
 </html>
